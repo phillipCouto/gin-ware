@@ -1,7 +1,7 @@
 package timeout
 
 import (
-	"io"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -31,7 +31,7 @@ func TestTimeoutMiddleware(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, 200, res.StatusCode)
 
-	message, err := io.ReadAll(res.Body)
+	message, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	require.NoError(t, err)
 	require.Equal(t, "success", string(message))
@@ -57,7 +57,7 @@ func TestTimeoutMiddlewareFailure(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, 408, res.StatusCode)
 
-	message, err := io.ReadAll(res.Body)
+	message, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	require.NoError(t, err)
 	require.Equal(t, "timed out", string(message))
